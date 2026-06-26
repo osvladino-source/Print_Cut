@@ -57,13 +57,11 @@ Public Sub LaserPrintCut()
     Dim addin As Object
     Set addin = CreateObject("LaserPrintCut.Addin")
     
-    ' Inicializa o STA thread do WPF
+    ' Passa a referência do CorelDRAW para o add-in
+    addin.SetCorelApp Application
+    
     addin.Startup
-    
-    ' Mostra a interface principal (modal)
     addin.ShowMainWindow
-    
-    ' Finaliza
     addin.Shutdown
     Set addin = Nothing
     

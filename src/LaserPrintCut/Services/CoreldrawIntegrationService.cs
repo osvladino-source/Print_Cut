@@ -2,36 +2,21 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using OpenCvSharp;
 
 namespace LaserPrintCutAddin.Services
 {
     public class CoreldrawIntegrationService
     {
-        private dynamic _corelApp;
-        private bool _isInitialized = false;
+        private readonly dynamic _corelApp;
 
-        public void Initialize()
+        public CoreldrawIntegrationService(dynamic corelApp)
         {
-            if (_isInitialized) return;
-
-            try
-            {
-                _corelApp = Marshal.GetActiveObject("CorelDRAW.Application");
-                _isInitialized = true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Nao foi possivel acessar o CorelDRAW: {ex.Message}");
-            }
+            _corelApp = corelApp ?? throw new ArgumentNullException(nameof(corelApp));
         }
 
         public string GetSelectedImagePath()
         {
-            Initialize();
-
             try
             {
                 var doc = _corelApp.ActiveDocument;
@@ -64,8 +49,6 @@ namespace LaserPrintCutAddin.Services
             OpenCvSharp.Point[] contourPoints,
             OpenCvSharp.Point[][] approximatedContours)
         {
-            Initialize();
-
             try
             {
                 var activeLayer = _corelApp.ActiveLayer;
@@ -106,8 +89,6 @@ namespace LaserPrintCutAddin.Services
             OpenCvSharp.Point[] contourPoints,
             OpenCvSharp.Point[][] approximatedContours)
         {
-            Initialize();
-
             try
             {
                 var doc = _corelApp.ActiveDocument;
@@ -192,14 +173,7 @@ namespace LaserPrintCutAddin.Services
             return pixels * 0.352778;
         }
 
-        public void Release()
-        {
-            if (_corelApp != null)
-            {
-                _isInitialized = false;
-                _corelApp = null;
-            }
-        }
+
     }
 
     public class CreateContourResult

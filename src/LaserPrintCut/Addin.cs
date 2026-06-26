@@ -11,6 +11,13 @@ namespace LaserPrintCutAddin
     [ProgId("LaserPrintCut.Addin")]
     public class Addin
     {
+        private dynamic _corelApp;
+
+        public void SetCorelApp(object corelApp)
+        {
+            _corelApp = corelApp;
+        }
+
         public void Startup()
         {
         }
@@ -19,7 +26,7 @@ namespace LaserPrintCutAddin
         {
             try
             {
-                var vm = new MainViewModel();
+                var vm = new MainViewModel(_corelApp);
                 var window = new MainWindow
                 {
                     DataContext = vm

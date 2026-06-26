@@ -92,10 +92,10 @@ namespace LaserPrintCutAddin.ViewModels
         public ICommand AcceptCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public MainViewModel()
+        public MainViewModel(dynamic corelApp = null)
         {
             _imageProcessingService = new ImageProcessingService();
-            _coreldrawService = new CoreldrawIntegrationService();
+            _coreldrawService = new CoreldrawIntegrationService(corelApp);
 
             AcceptCommand = new RelayCommand(OnAcceptClick);
             CancelCommand = new RelayCommand(OnCancel);
